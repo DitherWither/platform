@@ -1,6 +1,3 @@
-import gleam/io
-import gleam/string
-
 pub type Runtime {
   Erlang
   Node
@@ -20,8 +17,6 @@ pub type Os {
   Win32
   OtherOs(String)
 }
-
-// Architecture list from node's docs
 
 pub type Arch {
   Arm
@@ -51,6 +46,11 @@ fn os_() -> String
 @external(javascript, "./platform_ffi.mjs", "arch")
 fn arch_() -> String
 
+/// Returns the runtime this application is running on
+/// 
+/// On the erlang target, it'll always return `Erlang`
+/// 
+/// On the js target, it'll try to detect the js runtime
 pub fn runtime() -> Runtime {
   case runtime_() {
     "erlang" -> Erlang
@@ -62,6 +62,9 @@ pub fn runtime() -> Runtime {
   }
 }
 
+/// Returns the host operating system this appication is running on
+/// 
+/// In web browsers, this will always return OtherOs("unknown")
 pub fn os() -> Os {
   case os_() {
     "aix" -> Aix
@@ -75,8 +78,17 @@ pub fn os() -> Os {
   }
 }
 
+/// Returns the CPU architecture of the host system
+/// 
+/// In web browsers, this will always return OtherArch("unknown")
+/// 
+/// On erlang for windows, it'll always return either X86 or X64, even under a beam vm compiled for arm.
+/// This is because there is no simple way to get the cpu archictecture on windows, and it currently uses 
+/// the bitness of the cpu to guess it instead. 
+/// 
+/// As of 22nd August 2024, there are no prebuilt binaries for windows for arm, so this shouldn't matter
 pub fn arch() -> Arch {
-  case string.lowercase(arch_()) {
+  case arch_() {
     "arm" -> Arm
     "arm64" | "aarch64" -> Arm64
     "x86" | "ia32" -> X86
@@ -91,13 +103,4 @@ pub fn arch() -> Arch {
     "s390x" -> S390X
     arch -> OtherArch(arch)
   }
-}
-
-pub fn main() {
-  // io.debug("Runtime")
-  io.debug(runtime())
-  // io.debug("Os")
-  io.debug(os())
-  // io.debug("Arch")
-  io.debug(arch())
 }
