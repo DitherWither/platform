@@ -8,18 +8,14 @@ Zero dependency platform detection library for gleam
 gleam add platform@1
 ```
 ```gleam
+import gleam/io
 import platform
 
 pub fn main() {
-  // TODO: An example of the project in use
+  io.debug(platform.runtime()) // Erlang, Node, Deno, Bun, Browser
+  io.debug(platform.arch()) // X86, X64, Arm, Arm64
+  io.debug(platform.os()) // Win32, Linux, Darwin, FreeBsd, OpenBsd
 }
 ```
 
 Further documentation can be found at <https://hexdocs.pm/platform>.
-
-## Development
-
-```sh
-gleam run   # Run the project
-gleam test  # Run the tests
-```
