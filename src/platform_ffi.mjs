@@ -16,40 +16,37 @@ export function runtime() {
   }
 
   return "unknown";
-
 }
 
 export function os() {
-    const currentRuntime = runtime();
+  const currentRuntime = runtime();
 
-    if (currentRuntime === "node" || currentRuntime === "bun") {
-        return process.platform;
-    }
-    if (currentRuntime === "browser") {
-        // TODO get browser's host os using user agent data
-        return "unknown";
-    }
-    // if (currentRuntime === "deno") {
-    //     const {platform} = await import("node:process")
-    //     return platform;
-    // }
+  if (currentRuntime === "node" || currentRuntime === "bun") {
+    return process.platform;
+  }
+  if (currentRuntime === "browser") {
+    // TODO get browser's host os using user agent data
     return "unknown";
+  }
+  if (currentRuntime === "deno") {
+    return Deno.build.os;
+  }
+  return "unknown";
 }
 
 export function arch() {
-    const currentRuntime = runtime();
+  const currentRuntime = runtime();
 
-    if (currentRuntime === "node" || currentRuntime === "bun") {
-        return process.arch;
-    }
-    // if (currentRuntime === "deno") {
-    //     const {arch} = await import("node:process")
-    //     return arch;
-    // }
-    if (currentRuntime === "browser") {
-        // TODO get browser's architecture using user agent data
-        return "unknown";
-    }
-
+  if (currentRuntime === "node" || currentRuntime === "bun") {
+    return process.arch;
+  }
+  if (currentRuntime === "deno") {
+    return Deno.build.arch;
+  }
+  if (currentRuntime === "browser") {
+    // TODO get browser's architecture using user agent data
     return "unknown";
+  }
+
+  return "unknown";
 }
