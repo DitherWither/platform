@@ -70,7 +70,7 @@ pub fn os() -> Os {
     "linux" -> Linux
     "openbsd" -> OpenBsd
     "sunos" -> SunOs
-    "win" -> Win32
+    "win32" | "win" <> _ -> Win32
     os -> OtherOs(os)
   }
 }
