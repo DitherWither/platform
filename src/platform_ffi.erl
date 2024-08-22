@@ -8,7 +8,7 @@ os() ->
     Tokens = string:tokens(ArchitectureString, "-"),
     unicode:characters_to_binary(
         case length(Tokens) of
-            3 -> lists:nth(3, Tokens);
+            n when n >= 3 -> lists:nth(3, Tokens);
             2 -> lists:nth(2, Tokens)
         end
     ).
