@@ -4,17 +4,25 @@
 runtime() -> unicode:characters_to_binary("erlang").
 
 os() ->
-    ArchitectureString = erlang:system_info(system_architecture),
-    Tokens = string:tokens(ArchitectureString, "-"),
-    unicode:characters_to_binary(
-        case length(Tokens) of
-            4 -> lists:nth(3, Tokens);
-            3 -> lists:nth(3, Tokens);
-            2 -> lists:nth(2, Tokens)
-        end
-    ).
+    Platform =
+        case os:type() of
+            {win32, nt} ->
+                "win32";
+            {unix, Os} ->
+                erlang:atom_to_list(Os);
+            {_, _} ->
+                "unknown"
+        end,
+    list_to_binary(Platform).
 
 arch() ->
-    ArchitectureString = erlang:system_info(system_architecture),
-    [CpuArch | _] = string:tokens(ArchitectureString, "-"),
-    unicode:characters_to_binary(CpuArch).
+    case erlang:system_info(os_type) of
+        {unix, _} ->
+            [Arch, _] = string:split(erlang:system_info(system_architecture), "-"),
+            unicode:characters_to_binary(Arch);
+        {win32, _} ->
+            case erlang:system_info(wordsize) of
+                4 -> <<"ia32">>;
+                8 -> <<"x64">>
+            end
+    end.
