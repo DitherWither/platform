@@ -1,4 +1,5 @@
 # platform
+Zero dependency platform detection library for gleam
 
 [![Package Version](https://img.shields.io/hexpm/v/platform)](https://hex.pm/packages/platform)
 [![Hex Docs](https://img.shields.io/badge/hex-docs-ffaff3)](https://hexdocs.pm/platform/)
