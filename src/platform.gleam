@@ -64,13 +64,13 @@ pub fn runtime() -> Runtime {
 
 pub fn os() -> Os {
   case os_() {
-    "aix" | "aix" <> _ -> Aix
-    "darwin" | "darwin" <> _ -> Darwin
-    "freebsd" | "freebsd" <> _ -> FreeBsd
-    "linux" | "linux" <> _ -> Linux
-    "openbsd" | "openbsd" <> _ -> OpenBsd
-    "sunos" | "sunos" <> _ -> SunOs
-    "win" | "win" <> _ -> Win32
+    "aix" -> Aix
+    "darwin" -> Darwin
+    "freebsd" -> FreeBsd
+    "linux" -> Linux
+    "openbsd" -> OpenBsd
+    "sunos" -> SunOs
+    "win" -> Win32
     os -> OtherOs(os)
   }
 }
